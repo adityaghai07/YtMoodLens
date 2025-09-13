@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "YtMoodLens",
+  "version": "2.0",
+  "description": "Analyze YouTube video comments with advanced sentiment analysis and beautiful visualizations",
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://www.googleapis.com/*",
+    "http://localhost:5000/*",
+    "http://my-elb-2062136355.us-east-1.elb.amazonaws.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "YtMoodLens"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; img-src 'self' data: blob:;"
+  }
+}
