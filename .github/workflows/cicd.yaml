@@ -86,15 +86,18 @@ jobs:
         run: |
           docker pull ${{ secrets.AWS_ECR_LOGIN_URI }}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
 
-      - name: Stop and remove container if running
+      - name: Stop and remove container if exists
         run: |
-          if docker ps -q --filter "name=cnncls" | grep -q .; then
-            echo "Stopping existing container..."
-            docker stop cnncls
-            docker rm -fv cnncls
-            echo "Container stopped and removed"
+          # Check if container exists (running or stopped)
+          if docker ps -aq --filter "name=cnncls" | grep -q .; then
+            echo "Container 'cnncls' exists. Removing it..."
+            # Stop container if it's running
+            docker stop cnncls 2>/dev/null || echo "Container was not running"
+            # Remove container (force removal)
+            docker rm -f cnncls 2>/dev/null || echo "Container removal failed, but continuing"
+            echo "Container cleanup completed"
           else
-            echo "No existing container found"
+            echo "No existing container named 'cnncls' found"
           fi
 
       - name: Run Docker Image to serve users
