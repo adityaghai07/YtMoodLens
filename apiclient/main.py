@@ -64,8 +64,11 @@ def load_model_and_vectorizer(model_path, vectorizer_path):
 
 # model_name = "aditya_ghai_yt_mood_lens_model"
 # model_version = 1
-vectorizer_path = r'tfidf_vectorizer.pkl'
-model_path = r'lgbm_model.pkl'
+
+current_dir = os.path.dirname(os.path.abspath(__file__))
+vectorizer_path = os.path.join(current_dir, 'tfidf_vectorizer.pkl')
+model_path = os.path.join(current_dir, 'lgbm_model.pkl')
+
 model, vectorizer = load_model_and_vectorizer(model_path, vectorizer_path)
 
 @app.route('/')
