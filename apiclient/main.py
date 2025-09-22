@@ -45,18 +45,28 @@ def preprocess_comment(comment):
         print(f"Error in preprocessing comment: {e}")
         return comment
 
-def load_model_and_vectorizer(model_name, model_version, vectorizer_path):
-    mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
-    model = mlflow.sklearn.load_model(f"models:/{model_name}/{model_version}")
+# def load_model_and_vectorizer(model_name, model_version, vectorizer_path):
+#     mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
+#     model = mlflow.sklearn.load_model(f"models:/{model_name}/{model_version}")
+    
+#     with open(vectorizer_path, 'rb') as file:
+#         vectorizer = pickle.load(file)
+#     return model, vectorizer
+
+def load_model_and_vectorizer(model_path, vectorizer_path):
+    with open(model_path, 'rb') as file:
+        model = pickle.load(file)
     
     with open(vectorizer_path, 'rb') as file:
         vectorizer = pickle.load(file)
     return model, vectorizer
 
-model_name = "aditya_ghai_yt_mood_lens_model"
-model_version = 1
+
+# model_name = "aditya_ghai_yt_mood_lens_model"
+# model_version = 1
 vectorizer_path = r'tfidf_vectorizer.pkl'
-model, vectorizer = load_model_and_vectorizer(model_name, model_version, vectorizer_path)
+model_path = r'lgbm_model.pkl'
+model, vectorizer = load_model_and_vectorizer(model_path, vectorizer_path)
 
 @app.route('/')
 def home():
