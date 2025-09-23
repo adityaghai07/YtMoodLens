@@ -2,7 +2,6 @@
 
 document.addEventListener("DOMContentLoaded", async () => {
   const outputDiv = document.getElementById("output");
-  
   // Use configuration from config.js
   const API_KEY = CONFIG.API_KEY;
   const API_URL = CONFIG.API_URL;
@@ -24,9 +23,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Utility function to get sentiment label
   function getSentimentLabel(sentiment) {
     switch(sentiment) {
-      case '1': return 'Positive 😊';
-      case '-1': return 'Negative 😞';
-      default: return 'Neutral 😐';
+      case '1': return 'Positive';
+      case '-1': return 'Negative';
+      default: return 'Neutral';
     }
   }
 
@@ -40,7 +39,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       const videoId = match[1];
       
       outputDiv.innerHTML = `
-        <div class="section-title">📹 YouTube Video Analysis</div>
+        <div class="section-title">YouTube Video Analysis</div>
         <div class="video-id">${videoId}</div>
         ${showLoading("Fetching comments...")}
       `;
@@ -53,7 +52,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         outputDiv.innerHTML = outputDiv.innerHTML.replace(showLoading("Fetching comments..."), 
-          `<div class="success">✅ Fetched ${comments.length} comments</div>${showLoading("Performing sentiment analysis...")}`
+          `<div class="success">Fetched ${comments.length} comments</div>${showLoading("Performing sentiment analysis...")}`
         );
 
         const predictions = await getSentimentPredictions(comments);
@@ -88,7 +87,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           // Add the Comment Analysis Summary section
           outputDiv.innerHTML += `
             <div class="section">
-              <div class="section-title">📊 Comment Analysis Summary</div>
+              <div class="section-title">Comment Analysis Summary</div>
               <div class="metrics-container">
                 <div class="metric">
                   <div class="metric-title">Total Comments</div>
@@ -113,7 +112,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           // Add the Sentiment Distribution section
           outputDiv.innerHTML += `
             <div class="section">
-              <div class="section-title">📈 Sentiment Distribution</div>
+              <div class="section-title">Sentiment Distribution</div>
               <div class="chart-container" id="chart-container">
                 ${showLoading("Generating sentiment chart...")}
               </div>
@@ -125,7 +124,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           // Add the Sentiment Trend Graph section
           outputDiv.innerHTML += `
             <div class="section">
-              <div class="section-title">📉 Sentiment Trend Over Time</div>
+              <div class="section-title">Sentiment Trend Over Time</div>
               <div class="trend-graph-container" id="trend-graph-container">
                 ${showLoading("Generating trend analysis...")}
               </div>
@@ -137,7 +136,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           // Add the Word Cloud section
           outputDiv.innerHTML += `
             <div class="section">
-              <div class="section-title">☁️ Comment Word Cloud</div>
+              <div class="section-title">Comment Word Cloud</div>
               <div class="wordcloud-container" id="wordcloud-container">
                 ${showLoading("Generating word cloud...")}
               </div>
@@ -149,7 +148,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           // Add the top comments section
           outputDiv.innerHTML += `
             <div class="section">
-              <div class="section-title">💬 Top 25 Comments</div>
+              <div class="section-title">Top 25 Comments</div>
               <ul class="comment-list">
                 ${predictions.slice(0, 25).map((item, index) => `
                   <li class="comment-item">
@@ -163,10 +162,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
       } catch (error) {
         console.error("Analysis error:", error);
-        outputDiv.innerHTML += `<div class="error">❌ Error during analysis: ${error.message}</div>`;
+        outputDiv.innerHTML += `<div class="error">Error during analysis: ${error.message}</div>`;
       }
     } else {
-      outputDiv.innerHTML = '<div class="error">❌ This is not a valid YouTube video URL.</div>';
+      outputDiv.innerHTML = '<div class="error">This is not a valid YouTube video URL.</div>';
     }
   });
 
@@ -174,7 +173,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     let comments = [];
     let pageToken = "";
     try {
-      while (comments.length < CONFIG.MAX_COMMENTS) {
+      while (comments.length < 50) {
         const response = await fetch(`https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&videoId=${videoId}&maxResults=100&pageToken=${pageToken}&key=${API_KEY}`);
         const data = await response.json();
         
